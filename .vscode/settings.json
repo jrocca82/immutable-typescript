@@ -1,0 +1,8 @@
+{
+  "cSpell.words": [
+    "roccaweb",
+    "Splide",
+    "trpc"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

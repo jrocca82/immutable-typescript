@@ -1,9 +1,10 @@
 import { PrivateKeyWallet } from "@thirdweb-dev/auth/evm";
 import { ThirdwebAuth } from "@thirdweb-dev/auth/next";
+import { getBaseUrl } from "../utils";
 
 
 export const thirdWebService = () => {
-    const domain = "http://localhost:3000"
+    const domain = getBaseUrl();
 
     return ThirdwebAuth({
         domain,

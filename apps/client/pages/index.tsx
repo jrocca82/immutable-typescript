@@ -12,6 +12,7 @@ import { trpc } from "@roccaweb/lib/server/utils/trpc";
 import { CoinsModal } from "@/components/CoinsModal";
 import { Mint } from "@/components/Mint";
 import { TOKEN_ADDRESS } from "@roccaweb/lib/constants";
+import { useRouter } from "next/router";
 
 const CONTRACT_ADDRESS = "0xb1716bcd9c2c2823ad81e7f4c51c0210db7e81c1";
 const { ToastContainer, toast } = createStandaloneToast();
@@ -19,6 +20,7 @@ const { ToastContainer, toast } = createStandaloneToast();
 const HomePage: NextPage = () => {
 	const [userAddress, setUserAddress] = useState<string>();
 	const [assets, setAssets] = useState<blockchainData.Types.ListNFTsResult>();
+	const router = useRouter();
 
 	const externalWallet = useAddress();
 
@@ -38,7 +40,7 @@ const HomePage: NextPage = () => {
 	const { mutate: batchMint, isLoading } =
 		trpc.contract.mintStarterPack.useMutation({
 			onError: (e) => {
-				console.log(e)
+				console.log(e);
 				toast({
 					title: "ERROR",
 					description: "Error minting",
@@ -159,6 +161,7 @@ const HomePage: NextPage = () => {
 					<ConnectWallet />
 				</VStack>
 			)}
+			<Button onClick={() => router.push("/view")}>View All Minted NFTs</Button>
 		</Flex>
 	);
 };

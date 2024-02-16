@@ -1,7 +1,7 @@
 export const getBaseUrl = () => {
-  if (process.env.VERCEL_URL)
+  if (process.env.NEXT_PUBLIC_VERCEL_URL)
     // reference for vercel.com
-    return `https://${process.env.VERCEL_URL}`;
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
 
   if (typeof window !== "undefined")
     // browser should use relative path

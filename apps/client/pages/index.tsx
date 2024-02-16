@@ -9,6 +9,8 @@ import { ConnectWallet } from "@thirdweb-dev/react";
 import Link from "next/link";
 import { trpc } from "@roccaweb/lib/server/utils/trpc";
 import { CoinsModal } from "@/components/CoinsModal";
+import { Mint } from "@/components/Mint";
+import { TOKEN_ADDRESS } from "@roccaweb/lib/constants";
 
 const CONTRACT_ADDRESS = "0xb1716bcd9c2c2823ad81e7f4c51c0210db7e81c1";
 
@@ -69,11 +71,18 @@ const HomePage: NextPage = () => {
 				href={`https://explorer.testnet.immutable.com/address/${CONTRACT_ADDRESS}`}
 				target="_blank"
 			>
-				<Text>View on block explorer</Text>
+				<Text>View NFT on block explorer</Text>
+			</Link>
+			<Link
+				href={`https://explorer.testnet.immutable.com/address/${TOKEN_ADDRESS}`}
+				target="_blank"
+			>
+				<Text>View ERC20 on block explorer</Text>
 			</Link>
 			{userAddress ? (
 				<Flex flexDir="column" justify="center" align="center">
 					<Text color="white">Connected Wallet: {userAddress}</Text>
+					<Mint userAddress={userAddress} />
 					{assets && assets.result.length > 0 ? (
 						<Flex flexDir="column" align="center">
 							<Heading my="20px">My NFTs</Heading>

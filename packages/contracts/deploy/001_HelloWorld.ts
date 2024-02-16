@@ -9,8 +9,8 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
   const { deployer } = await getNamedAccounts();
 
-  await deploy("HelloWorld", {
-    contract: "HelloWorld",
+  await deploy("GameToken", {
+    contract: "GameToken",
     from: deployer,
     args: [],
     log: true,
@@ -19,4 +19,4 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 };
 
 export default func;
-func.tags = ["testbed", "_helloWorld"];
+func.tags = ["testbed", "_gameToken"];

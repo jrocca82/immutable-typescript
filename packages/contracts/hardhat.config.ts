@@ -15,7 +15,7 @@ import "./tasks/verifyOnEtherscan";
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.20",
+    version: "0.8.19",
     settings: {
       optimizer: {
         enabled: true,
@@ -35,6 +35,10 @@ const config: HardhatUserConfig = {
     },
     localhost: {
       saveDeployments: false,
+    },
+    immutableZkevmTestnet: {
+      url: "https://rpc.testnet.immutable.com",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
   },
   etherscan: {

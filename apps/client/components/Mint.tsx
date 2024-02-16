@@ -46,6 +46,7 @@ export const Mint = ({ userAddress }: { userAddress: string }) => {
 					}
 					mintTokens({ userAddress, amount: amount });
 				}}
+				isDisabled
 			>
 				Mint
 			</Button>

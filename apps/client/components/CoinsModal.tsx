@@ -9,7 +9,7 @@ import {
 	Button,
 	useDisclosure,
 	VStack,
-	Flex
+	Flex,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -31,11 +31,11 @@ export const CoinsModal = () => {
 
 	return (
 		<>
-			<Button onClick={onOpen}>Get Immutable Tokens</Button>
+			<Button onClick={onOpen}>Immutable Widgets</Button>
 
 			<Modal isOpen={isOpen} onClose={onClose} size="2xl">
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent backgroundColor="black">
 					<ModalHeader>
 						{buyOption ? buyOption.toUpperCase() : "Get Immutable Coins"}
 					</ModalHeader>

@@ -1,4 +1,5 @@
 import { Flex, Text, Button, Heading, Image, VStack } from "@chakra-ui/react";
+import { createStandaloneToast } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { blockchainData } from "@imtbl/sdk";
 import { useAddress } from "@thirdweb-dev/react";
@@ -13,6 +14,7 @@ import { Mint } from "@/components/Mint";
 import { TOKEN_ADDRESS } from "@roccaweb/lib/constants";
 
 const CONTRACT_ADDRESS = "0xb1716bcd9c2c2823ad81e7f4c51c0210db7e81c1";
+const { ToastContainer, toast } = createStandaloneToast();
 
 const HomePage: NextPage = () => {
 	const [userAddress, setUserAddress] = useState<string>();
@@ -33,7 +35,24 @@ const HomePage: NextPage = () => {
 		}
 	};
 
-	const { mutate: batchMint } = trpc.contract.mintStarterPack.useMutation();
+	const { mutate: batchMint, isLoading } =
+		trpc.contract.mintStarterPack.useMutation({
+			onError: (e) => {
+				console.log(e)
+				toast({
+					title: "ERROR",
+					description: "Error minting",
+					status: "error",
+				});
+			},
+			onSuccess: () => {
+				toast({
+					title: "SUCCESS",
+					description: "NFTs minted",
+					status: "success",
+				});
+			},
+		});
 
 	useEffect(() => {
 		if (!userAddress) {
@@ -81,6 +100,7 @@ const HomePage: NextPage = () => {
 			</Link>
 			{userAddress ? (
 				<Flex flexDir="column" justify="center" align="center">
+					<ToastContainer />
 					<Text color="white">Connected Wallet: {userAddress}</Text>
 					<Mint userAddress={userAddress} />
 					{assets && assets.result.length > 0 ? (
@@ -106,7 +126,7 @@ const HomePage: NextPage = () => {
 											<Text fontWeight="bold">Collection: {asset.name}</Text>
 											<Text>Token ID: {asset.token_id}</Text>
 											<Text>Attributes:</Text>
-											{asset.attributes.map((attr) => (
+											{asset.attributes?.map((attr) => (
 												<Text>
 													{attr.trait_type}: {attr.value}
 												</Text>
@@ -117,7 +137,17 @@ const HomePage: NextPage = () => {
 							</Flex>
 						</Flex>
 					) : (
-						<Button onClick={() => batchMint({ userAddress })}>
+						<Button
+							isLoading={isLoading}
+							isDisabled={isLoading}
+							onClick={() => {
+								try {
+									batchMint({ userAddress });
+								} catch (e) {
+									console.log(e);
+								}
+							}}
+						>
 							Mint starter pack
 						</Button>
 					)}

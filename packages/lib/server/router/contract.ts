@@ -1,7 +1,7 @@
 import { publicProcedure, router } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { ERC721Client } from "@imtbl/contracts";
-import { Contract, getDefaultProvider, Wallet } from "ethers";
+import { Contract, getDefaultProvider, providers, Wallet } from "ethers";
 import { CONTRACT_ADDRESS, TOKEN_ADDRESS } from "../../constants";
 import { z } from "zod";
 import { GameToken__factory } from "@roccaweb/contracts/typechain-types/factories/contracts/implementations";
@@ -26,16 +26,29 @@ export const contractRouter = router({
 
             const contractInstance = () => new ERC721Client(CONTRACT_ADDRESS);
 
+            
             const TOKEN_IDS = [
                 {
                     to: userAddress,
-                    tokenIds: ["1", "2", "3"],
+                    tokenIds: ["4", "5", "6"],
                 },
             ];
             const contract = contractInstance();
-            const transaction = await contract.populateMintBatch(TOKEN_IDS);
-            const tx = await signer.sendTransaction(transaction);
-            return tx.wait();
+            // const lastTokenId = contract.totalSupply(signer);
+            // console.log(lastTokenId)
+            try {
+
+                const transaction = await contract.populateMintBatch(TOKEN_IDS, {
+                    gasLimit: 1000000,
+                    maxFeePerGas: parseUnits('100', 'gwei'),
+                    maxPriorityFeePerGas: parseUnits('10', 'gwei'),
+                });
+                console.log(transaction)
+                const tx = await signer.sendTransaction(transaction);
+                return tx.wait();
+            } catch (e) {
+                console.log(e)
+            }
 
         }),
     mintToken: publicProcedure
